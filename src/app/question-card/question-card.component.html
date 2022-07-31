@@ -1,30 +1,87 @@
 <div class="question-card">
-    <span>{{ question?.question }}</span>
-    <ng-template *ngIf="calle === appRouteEnum.MANAGE_QUESTIONS" [ngTemplateOutlet]="content_for_management"></ng-template>
-    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS" [ngTemplateOutlet]="content_for_list"></ng-template>
+    <div class="question-text">
+        <span>
+            {{ question?.question }}
+        </span>
+    </div>
+    <ng-template *ngIf="calle === appRouteEnum.MANAGE_QUESTIONS" [ngTemplateOutlet]="content_for_management_page"></ng-template>
+    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS && !question?.answered" [ngTemplateOutlet]="content_for_list_page_ununswered"></ng-template>
+    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS && question?.answered" [ngTemplateOutlet]="content_for_list_page_unswered"></ng-template>
 </div>
 
-<ng-template #content_for_management>
-    <div class="question-details">
-        <span>Date created: {{ date }}</span>
-        <span>Is answered: {{ answered }}</span>
-        <span>Type: {{ type }}</span>
-    </div>
-    <div class="buttons-container">
-        <button [routerLink]="['edit-question', id]" [state]="{question: question}"class="button">Edit question</button>
-        <button (click)="onDeleteQuestion()" class="button delete-button">Delete question</button>
-    </div>
-</ng-template>
-
-<ng-template #content_for_list>
-    <ng-container [ngSwitch]="question?.type">
-        <div *ngSwitchCase="'OPEN'">
-            <textarea name="" id="" cols="30" rows="5"></textarea>
+<ng-template #content_for_management_page>
+    <div class="manage-question-footer">
+        <div class="question-details">
+            <span><strong>Date created:</strong> {{ date }}</span>
+            <span><strong>Is answered:</strong> {{ answered }}</span>
+            <span><strong>Type: </strong>{{ type }}</span>
         </div>
-    </ng-container>
-
-    <div>
-        <button class="button">Submit answer</button>
+        <div class="buttons-container">
+            <button class="button" [routerLink]="['edit-question', id]" [state]="{question: question}"><i class="fa fa-edit"></i> Edit question</button>
+            <button class="button" (click)="onDeleteQuestion()"><i class="fa fa-trash"></i> Delete question</button>
+        </div>
     </div>
 </ng-template>
 
+<ng-template #content_for_list_page_ununswered>
+    <div class="content-for-list-page">
+        <ng-container [ngSwitch]="question?.type">
+            <ng-template *ngSwitchCase="questionTypesEnum.OPEN" [ngTemplateOutlet]="open"></ng-template>
+            <ng-template *ngSwitchCase="questionTypesEnum.SINGLE" [ngTemplateOutlet]="single"></ng-template>
+            <ng-template *ngSwitchCase="questionTypesEnum.MULTIPLE" [ngTemplateOutlet]="multi"></ng-template>
+        </ng-container>
+    
+        <div class="button-container">
+            <button 
+                class="button submit-button" 
+                (click)="submitAnsver()"
+                [disabled]="!isFormValid"
+                ><i class="fa fa-paper-plane"></i> Submit answer</button>
+        </div>
+    </div>
+
+    <ng-template #open [formGroup]="formGroup">
+        <textarea [formControlName]="'openAnswer'" placeholder="Type answer here" cols="30" rows="5"></textarea>
+    </ng-template>
+    
+    <ng-template #single [formGroup]="formGroup">
+        <div *ngFor="let answer of question?.answers; let i=index" class="check-radio-container">
+            <div class="answer-group">
+                <input type="radio" class="radion-or-check" [value]="i" [formControlName]="'singleChoice'"><span class="question"> {{ answer }}</span>
+            </div>
+        </div>
+    </ng-template>
+    
+    <ng-template #multi [formGroup]="formGroup">
+        <div *ngFor="let control of multiChoiceArray.controls; let i=index" class="check-radio-container">
+            <ng-container formArrayName="multiChoiceArray">
+                <div class="answer-group">
+                    <input type="checkbox" class="radion-or-check" [formControlName]="i"><span class="question"> {{ question?.answers?.[i] }}</span>
+                </div>
+            </ng-container>
+        </div>
+    </ng-template>
+
+</ng-template>
+
+
+<ng-template #content_for_list_page_unswered>
+    <div class="answered-questions">
+        <span>Type: {{ type }}</span>
+        <span *ngIf="question?.type !== questionTypesEnum.OPEN">Possible Answers: </span>
+        <ul class="answers_text">
+            <li *ngFor="let answer of question?.answers">{{ answer }}</li>
+        </ul>
+        <span> {{ question?.answersChosenByUser?.length === 1 ? 'Answer' : 'Answers'}} chosen by user:</span>
+        <ul class="answers_text">
+            <li *ngFor="let answer of question?.answersChosenByUser">{{ answer }}</li>
+        </ul>
+
+        <div class="button-container">
+            <button 
+                class="button submit-button" 
+                (click)="returnToUnunswered()"
+                ><i class="fa fa-arrow-right"></i> Return to ununswered</button>
+        </div>
+    </div>
+</ng-template>

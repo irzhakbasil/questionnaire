@@ -33,9 +33,13 @@ export class ListOfQuestionsComponent implements OnInit {
 
   sortQuestions() {
       this.questions$.subscribe(res => {
-        const sortedQuestions = Question.sortQuestions(res);
+        const sortedQuestions = Question.sortQuestionsByisAnswered(res);
         this.answeredQuestions = sortedQuestions.answeredQuestion;
         this.unansweredQuestions = sortedQuestions.unansweredQuestion;
       })
+  }
+
+  answerQuestion(question: Question){
+    this.localStorageService.updateQuestion(question);
   }
 }

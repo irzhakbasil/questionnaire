@@ -1,50 +1,112 @@
 @import '../app.component.scss';
 
 .question-card {
-    background-image: linear-gradient(to right, #00a2ff3f, #06b9f03a, #a3715a3e, rgba(0, 128, 0, 0.206));
-    backdrop-filter: blur(60%);
-    display: flex;
-    border: 1px solid grey;
-    padding: 10px;
-    margin: 10px;
     border-radius: 4px;
-    flex-direction: column;
-    .question-details {
-        span, strong {
-            font-size: 15px;
-            &:not(:first-child) {
-                margin-left: 10px;
-            }
-        }
+    margin: 10px 5px;
+    text-align: left;
+    max-width: 600px;
+    min-width: 450px;
+    position: relative;
+    box-shadow: 0px 5px 5px 0px rgb(0 0 0 / 30%);
+    background-color: #fff;
+    margin-bottom: 15px;
+}
+.question-text {
+    padding: 15px 10px 15px 10px;
+     span {
+        font-size: 18px;
+     }
+}
+.question-details {
+    span {
+        font-size: 15px;
     }
 }
 
 .buttons-container {
-    display: flex;
     margin-top: 10px;
-    button {
-        font-size: 13px;
+}
+
+.button {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 4px;
+    font-size: 16px;
+    &:hover {
+        cursor: pointer;
+        background-color: #ededed;
     }
-    button:not(:first-child){
+    &:nth-of-type(2) {
         margin-left: 10px;
     }
 }
 
-.button {
-    @include button-blue;
-    margin-left: auto;
+.button-container {
+    border-top: 1px solid #ccc;
+    padding: 5px;
+    display: flex;
+    button {
+        margin-left: auto;
+        padding: 6px;
+    }
 }
-.button.delete-button {
-    background-image: linear-gradient(#e871c7, #84033b);;
-    border: 1px solid #84033b;
-    &:hover {
-        background-image: linear-gradient(#cb63ad, #730333);
-        border-color: #730333;
+
+strong {
+    font-size: 15px;
+}
+.manage-question-footer {
+    padding: 0 10px 10px 10px;
+    border-top: 1px solid #ccc;
+    background-color: #f1f1f1;;
+}
+.question-details {
+    span:not(:first-child)  {
+        margin-left: 10px;
     }
 }
 
 textarea {
-    margin-top: 10px;
+    @include textarea-mixin;
+    border-top: 1px solid #ccc;
+    &:focus {
+        border: none;
+        border-top: 1px solid #ccc;
+        outline: none;
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+.radion-or-check:hover {
+    cursor: pointer;
+}
+
+.question {
+    font-size: 18px;
+}
+
+.answer-group {
     margin-bottom: 10px;
-    @include textarea-input-styles;
+}
+.content-for-list-page {
+    padding-top: 10px;
+    background-color: #ededed;
+}
+.check-radio-container {
+    margin-left: 10px;
+}
+.answered-questions {
+    display: flex;
+    flex-direction: column;
+    background-color: #ededed;
+    padding-left: 10px;
+    span {
+        font-size: 17px;
+    }
+    ul {
+        margin: 0;
+        li {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    }
 }

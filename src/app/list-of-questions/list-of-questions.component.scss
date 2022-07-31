@@ -1,16 +1,24 @@
-:host {
+.navigation-container {
+    padding-left: 10px;
+    margin-top: 20px;
+}
+.list-container {
     display: flex;
+    h2 {
+        margin-left: 10px;
+    }
+}
+.answered-questions-container, .unanswered-questions-container {
+    width: 48vw;
+}
+.list {
+    height: calc(100vh - 103px);
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-.answered-questions-container {
-    width: 50%;
-    h2 {
-        text-align: center;
-    }
-}
-.unanswered-questions-container {
-    width: 50%;
-    h2 {
-        text-align: center;
-    }
+.empty-list {
+    padding-left: 10px;
 }

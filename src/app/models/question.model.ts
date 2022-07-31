@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 
 export type QuestionTypesStrings = 
     'SINGLE' | 'MULTIPLE' | 'OPEN'
@@ -8,26 +9,57 @@ export enum QuestionTypes {
     OPEN = 'Open question'
 }
 
-const isTypeString = (value: QuestionTypesStrings): value is keyof typeof QuestionTypes => {
-    return value in QuestionTypes; 
+export enum QuestionTypesConsts {
+    SINGLE = 'SINGLE',
+    MULTIPLE = 'MULTIPLE',
+    OPEN = 'OPEN'
 }
 
+export enum QuestionLifecircleMode {
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE',
+    RESTORE = 'RESTORE',
+    ANSWER = 'ANSWER',
+    UNANSWER = 'UNANSWER'
+}
 interface SortedQuestions {
     answeredQuestion: Question[];
     unansweredQuestion: Question[];
 }
 
+const QuestionInitializer: Question = {
+    creationTimestamp: new Date().getTime(),
+    question: '',
+    type: '',
+    answered: false,
+}
 export class Question {
-    creationTimestamp?: number;
+    creationTimestamp: number;
     answeredTimestamp?: number;
     id?: string;
-    question?: string;
-    type?: string;
-    answered?: boolean;
+    question: string;
+    type: string;
+    answered: boolean;
     answers?: string[];
+    answersChosenByUser?: string[]
 
-    constructor(input: Question) {
-        Object.assign(this, input);
+    constructor(input: Question, mode: QuestionLifecircleMode) {
+        this.question = input.question;
+        this.type = input.type;
+        this.answered = input.answered;
+        this.creationTimestamp = input.creationTimestamp;
+        this.answeredTimestamp = input.answeredTimestamp;
+        this.id = input.id;
+        if(input.answers) {
+            this.answers = input.answers
+        }
+        if(input.answersChosenByUser) {
+            this.answersChosenByUser = input.answersChosenByUser
+        }
+        if (mode === QuestionLifecircleMode.UNANSWER) {
+            this.answered = false;
+            this.answersChosenByUser = [];
+        }
     }
 
     static getDateString(creationTimestamp: number): string {
@@ -42,15 +74,15 @@ export class Question {
         return QuestionTypes[value];
     }
 
-    static isAnsweredTransform(insAnswered: boolean): string {
+    static isAnsweredTransform(insAnswered: boolean): string  {
         return insAnswered ? 'Yes' : 'No';
     }
 
     static getEmptyQuestionObject(){
-        return new Question({})
+        return new Question(QuestionInitializer, QuestionLifecircleMode.CREATE)
     }
 
-    static sortQuestions(questions: Question[]): SortedQuestions {
+    static sortQuestionsByisAnswered(questions: Question[]): SortedQuestions { // reduce
         const answeredQuestion: Question[] = [];
         const unansweredQuestion: Question[] = [];
         questions.forEach(question => {
@@ -65,4 +97,10 @@ export class Question {
             unansweredQuestion
         }
     }
+    
+    static sortQuestionByDate(questions: Question[]) {
+        return questions.sort(function(a, b){
+            return a.creationTimestamp - b.creationTimestamp;
+        })
+    } 
 }

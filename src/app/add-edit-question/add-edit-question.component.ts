@@ -1,6 +1,6 @@
 // angular
 import { Component, OnInit } from '@angular/core';
-import { Question, QuestionTypes, QuestionTypesStrings } from '../models/question.model';
+import { Question, QuestionLifecircleMode, QuestionTypes, QuestionTypesStrings } from '../models/question.model';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 
 // app
@@ -121,11 +121,13 @@ export class AddEditComponent implements OnInit {
     const newQuestion = new Question({
       creationTimestamp: new Date().getTime(),
       answered: false,
-      id: this.isEditMode ? this.editQuestionObject?.id : nanoid(),
       question: this.formGroup.get('question')?.value,
       type: Question.getQuestionType(this.formGroup.get('type')?.value),
-      answers: this.selectedType !== QuestionTypes.OPEN ? (this.formGroup.get('controlsArray') as FormArray).value : []
-    });
+      id: this.isEditMode ? this.editQuestionObject.id : nanoid(),
+      answers: this.selectedType !== QuestionTypes.OPEN
+        ? (this.formGroup.get('controlsArray') as FormArray).value.filter((val: string) => val !== '')
+        : []
+    }, this.isEditMode ? QuestionLifecircleMode.UPDATE : QuestionLifecircleMode.CREATE)
     if(this.isEditMode) {
       this.localStoreService.updateQuestion(newQuestion);
     } else {

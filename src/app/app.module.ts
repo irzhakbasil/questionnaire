@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddEditComponent } from './add-edit-question/add-edit-question.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ManameQuestionsComponent } from './maname-questions/maname-questions.component';
+import { ManameQuestionsComponent } from './manage-questions/manage-questions.component';
 import { QuestionCardComponent } from './question-card/question-card.component';
 import { ListOfQuestionsComponent } from './list-of-questions/list-of-questions.component';
 

@@ -6,8 +6,8 @@ import { Question } from '../models/question.model';
 
 @Component({
   selector: 'app-maname-questions',
-  templateUrl: './maname-questions.component.html',
-  styleUrls: ['./maname-questions.component.scss']
+  templateUrl: './manage-questions.component.html',
+  styleUrls: ['./manage-questions.component.scss']
 })
 
 export class ManameQuestionsComponent implements OnInit {

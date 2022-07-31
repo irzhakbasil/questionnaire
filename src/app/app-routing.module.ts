@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutesEnum } from './app-consts/app-constants';
-import { AppComponent } from './app.component';
 import { AddEditComponent } from './add-edit-question/add-edit-question.component';
-import { ManameQuestionsComponent } from './maname-questions/maname-questions.component';
+import { ManameQuestionsComponent } from './manage-questions/manage-questions.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ListOfQuestionsComponent } from './list-of-questions/list-of-questions.component';
 

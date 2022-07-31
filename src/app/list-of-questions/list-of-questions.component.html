@@ -1,21 +1,37 @@
-<div class="answered-questions-container">
-    <h2>Aunswered Questions</h2>
-    <div *ngFor="let question of answeredQuestions">
-        <app-question-card        
-        [question]="question"
-        [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
-        >
-        </app-question-card>
-    </div>
+<div class="navigation-container">
+    <a class="link" [routerLink]="['/manage-questions']"><span>Go to the Manage Questions Page</span></a>
 </div>
-<div class="unanswered-questions-container">
-    <h2>Ununswered Questions</h2>
-    <div *ngFor="let question of unansweredQuestions">
-        <app-question-card
-        [question]="question"
-        [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
-        >
-        </app-question-card>
+<div class="list-container">
+    <div class="answered-questions-container">
+        <h2>Aunswered Questions</h2>
+        <div class="list" *ngIf="answeredQuestions.length; else emptyList">
+            <div *ngFor="let question of answeredQuestions">
+                <app-question-card        
+                [question]="question"
+                (submitAnswer)="answerQuestion($event)"
+                [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+                >
+                </app-question-card>
+            </div>
+        </div>
+    </div>
+    <div class="unanswered-questions-container">
+        <h2>Ununswered Questions</h2>
+        <div class="list" *ngIf="unansweredQuestions.length; else emptyList">
+            <div *ngFor="let question of unansweredQuestions">
+                <app-question-card
+                [question]="question"
+                (submitAnswer)="answerQuestion($event)"
+                [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+                >
+                </app-question-card>
+            </div>
+        </div>
     </div>
 </div>
 
+<ng-template #emptyList>
+    <div class="empty-list">
+        List is empty.
+    </div>
+</ng-template>

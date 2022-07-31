@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Question } from './models/question.model';
+import { Question, QuestionLifecircleMode } from './models/question.model';
 
 const STORAGE_KEY = 'questionnaire';
 
@@ -13,6 +13,14 @@ export class LocalStorageService {
 
   constructor() {
     this.getData(false);
+  }
+
+  getQuestionsObservable() {
+    return this.questions$.asObservable();
+  }
+
+  setQuestionsObservable(questions: Question[]) {
+    this.questions$.next(questions)
   }
 
   public saveData(key: string, value: string) {
@@ -28,8 +36,10 @@ export class LocalStorageService {
 
   public updateQuestion(questionEdited: Question) {
     let storeData = this.getData(true);
+    console.log(questionEdited, storeData)
     storeData.map((question, index) => {
       if(question.id === questionEdited.id) {
+        console.log('MATCH')
         storeData[index] = questionEdited;
       }
     });
@@ -46,14 +56,6 @@ export class LocalStorageService {
     this.getData(false);
   }
 
-  getQuestionsObservable() {
-    return this.questions$.asObservable();
-  }
-
-  setQuestionsObservable(questions: Question[]) {
-    this.questions$.next(questions)
-  }
-
   public getData(isSaveDeleteUpdateOperation: boolean): Question[] {
     const data = localStorage.getItem(STORAGE_KEY);
     let storeData;
@@ -62,7 +64,7 @@ export class LocalStorageService {
       storeData = JSON.parse(data);
       if(storeData instanceof Array) {
         storeData.forEach((item) => {
-          questions.push(new Question(item))
+          questions.push(new Question(item, QuestionLifecircleMode.UPDATE))
         })
       }
     }
@@ -70,13 +72,5 @@ export class LocalStorageService {
       this.setQuestionsObservable(questions);
     }
     return questions;
-  }
-
-  public removeData(key: string) {
-    localStorage.removeItem(key);
-  }
-
-  public clearData() {
-    localStorage.clear();
   }
 }

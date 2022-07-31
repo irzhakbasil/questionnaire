@@ -1,0 +1,83 @@
+@import '../app.component.scss';
+
+.container {
+    height: 100%;
+    padding: 10px;
+    h1 {
+        text-align: center;
+        margin-top: 3px;
+    }
+    .navigation-container {
+        display: flex;
+        a {
+            @include link-styles;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+    }
+    textarea {
+        @include textarea-input-styles;
+    }
+    input {
+        @include textarea-input-styles;
+    }
+    .type-buttons {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        button.button:nth-child(even) {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        button.active {
+            @include button-hover;
+        }
+    }
+    button.button {
+        @include button-blue;
+    }
+    .add-question-menu {
+        display: flex;
+        align-items: center;
+        padding-top: 25px;
+        padding-bottom: 10px;
+        span {
+            margin-left: 10px;
+        }
+    }
+    input {
+        margin-top: 7px;
+    }
+    .save-button {
+        position: absolute;
+        left: calc(100% - 152px);
+        bottom: 20px;
+    }
+    .radio-with-label {
+        align-items: center;
+        display: flex;
+        align-items: center;
+        height: 20px;
+        input {
+            width: 20px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        label {
+            margin-top: 4px;
+            font-size: 16px;
+            width: 130px;
+            &:hover {
+                color: black;
+                cursor: pointer;
+            }
+        }
+        &:first-of-type {
+            margin-left: 20px;
+        }
+    }
+    .radio {
+        accent-color: green;
+    }
+}

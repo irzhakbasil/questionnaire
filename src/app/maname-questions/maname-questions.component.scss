@@ -1,0 +1,35 @@
+@import '../app.component.scss';
+
+.manage-questions {
+    height: 100%;
+}
+.header {
+    text-align: center;
+}
+.navigation-container {
+    display: flex;
+    a {
+        @include link-styles;
+    }
+}
+.question-list {
+    height: 100%;
+    overflow: scroll;
+}
+.button {
+    margin-right: 10px;
+    @include button-blue;
+    background-image: linear-gradient(#0cae14, #007e0f);
+    border: 1px solid #007e0f;
+    &:hover {
+        background-image: linear-gradient(#0c9713, #00610b);
+        border-color: #00610b;
+    }
+}
+
+.empty-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 77%;
+}

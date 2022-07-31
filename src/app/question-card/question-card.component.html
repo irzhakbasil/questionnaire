@@ -1,0 +1,30 @@
+<div class="question-card">
+    <span>{{ question?.question }}</span>
+    <ng-template *ngIf="calle === appRouteEnum.MANAGE_QUESTIONS" [ngTemplateOutlet]="content_for_management"></ng-template>
+    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS" [ngTemplateOutlet]="content_for_list"></ng-template>
+</div>
+
+<ng-template #content_for_management>
+    <div class="question-details">
+        <span>Date created: {{ date }}</span>
+        <span>Is answered: {{ answered }}</span>
+        <span>Type: {{ type }}</span>
+    </div>
+    <div class="buttons-container">
+        <button [routerLink]="['edit-question', id]" [state]="{question: question}"class="button">Edit question</button>
+        <button (click)="onDeleteQuestion()" class="button delete-button">Delete question</button>
+    </div>
+</ng-template>
+
+<ng-template #content_for_list>
+    <ng-container [ngSwitch]="question?.type">
+        <div *ngSwitchCase="'OPEN'">
+            <textarea name="" id="" cols="30" rows="5"></textarea>
+        </div>
+    </ng-container>
+
+    <div>
+        <button class="button">Submit answer</button>
+    </div>
+</ng-template>
+

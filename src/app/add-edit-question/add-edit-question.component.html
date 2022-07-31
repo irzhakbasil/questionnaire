@@ -1,0 +1,41 @@
+<div class="container" [formGroup]="formGroup">
+    <h1>{{ isEditMode ? 'Edit Question' : 'Create Question' }}</h1>
+   <div class="navigation-container">
+    <a [routerLink]="['/manage-questions']"><span>Go to the Manage Questions Page</span></a>
+   </div>
+    <textarea cols="30" rows="5" placeholder="enter question" [formControlName]="'question'"></textarea>
+    <div class="type-buttons">
+        <span>Select answer type:</span>
+        <ng-container *ngFor="let name of questionTypeNames">
+            <div class="radio-with-label">
+                <input class="radio" type="radio" [value]="name" [formControlName]="'type'">
+                <label (click)="selectType(name)">{{ name }}</label>
+            </div>
+        </ng-container>
+    </div>
+    <div class="answers" [ngSwitch]="true">
+        <div *ngSwitchCase="selectedType == questionTypesEnum.SINGLE || selectedType == questionTypesEnum.MULTIPLE">
+            <ng-template [ngTemplateOutlet]="questionsList"></ng-template>
+        </div>
+    </div>
+    <button 
+        class="button save-button" 
+        [disabled]="!(formGroup.valid && isInputsValid)"
+        (click)="saveQuestion()"
+        >Save Question</button>
+</div>
+
+
+<ng-template #questionsList>
+    <div class="add-question-menu">
+        <button [disabled]="this.controlsArray.length === controlsMaxLength" class="button" (click)="addQastionInput()">Add new possible answer</button>
+        <span>(You can add maximum 5 answers)</span>
+    </div>
+    <div [formGroup]="formGroup">
+        <div formArrayName="controlsArray">
+            <div *ngFor="let control of controlsArray.controls; let i=index">
+                <input type="text"  [formControlName]="i" [placeholder]="'enter possible answer'">
+            </div>
+        </div>
+    </div>
+</ng-template>

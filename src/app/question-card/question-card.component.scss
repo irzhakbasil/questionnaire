@@ -1,0 +1,50 @@
+@import '../app.component.scss';
+
+.question-card {
+    background-image: linear-gradient(to right, #00a2ff3f, #06b9f03a, #a3715a3e, rgba(0, 128, 0, 0.206));
+    backdrop-filter: blur(60%);
+    display: flex;
+    border: 1px solid grey;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+    flex-direction: column;
+    .question-details {
+        span, strong {
+            font-size: 15px;
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+.buttons-container {
+    display: flex;
+    margin-top: 10px;
+    button {
+        font-size: 13px;
+    }
+    button:not(:first-child){
+        margin-left: 10px;
+    }
+}
+
+.button {
+    @include button-blue;
+    margin-left: auto;
+}
+.button.delete-button {
+    background-image: linear-gradient(#e871c7, #84033b);;
+    border: 1px solid #84033b;
+    &:hover {
+        background-image: linear-gradient(#cb63ad, #730333);
+        border-color: #730333;
+    }
+}
+
+textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    @include textarea-input-styles;
+}

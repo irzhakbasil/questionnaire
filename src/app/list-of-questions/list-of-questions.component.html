@@ -1,0 +1,21 @@
+<div class="answered-questions-container">
+    <h2>Aunswered Questions</h2>
+    <div *ngFor="let question of answeredQuestions">
+        <app-question-card        
+        [question]="question"
+        [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+        >
+        </app-question-card>
+    </div>
+</div>
+<div class="unanswered-questions-container">
+    <h2>Ununswered Questions</h2>
+    <div *ngFor="let question of unansweredQuestions">
+        <app-question-card
+        [question]="question"
+        [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+        >
+        </app-question-card>
+    </div>
+</div>
+

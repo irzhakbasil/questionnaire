@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+}
+
+.answered-questions-container {
+    width: 50%;
+    h2 {
+        text-align: center;
+    }
+}
+.unanswered-questions-container {
+    width: 50%;
+    h2 {
+        text-align: center;
+    }
+}

@@ -120,6 +120,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
 
   submitAnsver(){
     const updatedQuestion = new Question({...this.question as Question}, QuestionLifecircleMode.UPDATE);
+    updatedQuestion.answeredTimestamp = Question.getTimeStampNow();
     switch(this.question?.type) {
       case QuestionTypesConsts.OPEN: {
         updatedQuestion.answersChosenByUser = [this.formGroup.get(AnswerFormKeys.OPEN_ANSWER)?.value];

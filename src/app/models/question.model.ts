@@ -103,6 +103,10 @@ export class Question {
         }
     }
     
+    static getTimeStampNow() {
+        return new Date().getTime();
+    }
+
     static sortQuestionByCreationDate(questions: Question[]) {
         return questions.sort(function(a, b){
             return b.creationTimestamp - a.creationTimestamp;
@@ -111,7 +115,7 @@ export class Question {
 
     static sortQuestionByUnswerDate(questions: Question[]) {
         return questions.sort(function(a, b){
-            return a.answeredTimestamp - b.answeredTimestamp;
+            return b.answeredTimestamp - a.answeredTimestamp;
         })
     } 
 }

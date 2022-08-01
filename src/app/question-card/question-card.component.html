@@ -5,8 +5,8 @@
         </span>
     </div>
     <ng-template *ngIf="whoCall === appRouteEnum.MANAGE_QUESTIONS_RELATIVE" [ngTemplateOutlet]="template_for_management_page"></ng-template>
-    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && !question?.answered" [ngTemplateOutlet]="template_for_list_page_ununswered"></ng-template>
-    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && question?.answered" [ngTemplateOutlet]="template_for_list_page_unswered"></ng-template>
+    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && !question?.answered" [ngTemplateOutlet]="template_for_list_page_unanswered"></ng-template>
+    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && question?.answered" [ngTemplateOutlet]="template_for_list_page_answered"></ng-template>
 </div>
 
 <ng-template #template_for_management_page>
@@ -23,7 +23,7 @@
     </div>
 </ng-template>
 
-<ng-template #template_for_list_page_ununswered>
+<ng-template #template_for_list_page_unanswered>
     <div class="content-for-list-page" [ngClass]="{'padding-top': question?.type !== questionTypesEnum.OPEN}">
         <ng-container [ngSwitch]="question?.type">
             <ng-template *ngSwitchCase="questionTypesEnum.OPEN" [ngTemplateOutlet]="open"></ng-template>
@@ -66,7 +66,7 @@
 </ng-template>
 
 
-<ng-template #template_for_list_page_unswered>
+<ng-template #template_for_list_page_answered>
     <div class="answered-questions">
         <span><strong>Type: </strong>{{ type }}</span>
         <span *ngIf="question?.type !== questionTypesEnum.OPEN"><strong>Possible Answers: </strong></span>
@@ -81,8 +81,8 @@
         <div class="button-container" [ngClass]="{'margin-top-border': question?.type !== questionTypesEnum.OPEN}">
             <button 
                 class="button submit-button" 
-                (click)="returnToUnunswered()"
-                ><i class="fa fa-arrow-right"></i> Return to ununswered</button>
+                (click)="returnToUnanswered()"
+                ><i class="fa fa-arrow-right"></i> Return to unanswered</button>
         </div>
     </div>
 </ng-template>

@@ -150,7 +150,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  returnToUnunswered(){
+  returnToUnanswered(){
     const updatedQuestion = new Question({...this.question as Question}, QuestionLifecircleMode.UNANSWER);
     this.submitAnswer.next(updatedQuestion);
   }

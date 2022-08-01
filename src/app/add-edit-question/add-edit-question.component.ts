@@ -138,8 +138,9 @@ export class AddEditComponent implements OnInit, OnDestroy {
     } else {
       this.localStoreService.saveQuestion(newQuestion);
     }
-    this.router.navigate(['/manage-questions']);
+    this.router.navigate([AppRoutesEnum.MANAGE_QUESTIONS_ROOT]);
   }
+  
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

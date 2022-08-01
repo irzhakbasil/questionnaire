@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { interval, Observable, take } from 'rxjs';
+import { interval, Observable, ReplaySubject, take, takeUntil } from 'rxjs';
 import { AppRoutesEnum } from '../app-consts/app-constants';
 import { LocalStorageService } from '../local-storage.service';
 import { Question } from '../models/question.model';
@@ -10,7 +10,9 @@ import { Question } from '../models/question.model';
   templateUrl: './list-of-questions.component.html',
   styleUrls: ['./list-of-questions.component.scss']
 })
-export class ListOfQuestionsComponent implements OnInit {
+export class ListOfQuestionsComponent implements OnInit, OnDestroy {
+
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   questions$: Observable<Question[]>;
 
@@ -32,7 +34,7 @@ export class ListOfQuestionsComponent implements OnInit {
   }
 
   sortQuestions() {
-      this.questions$.subscribe(res => {
+      this.questions$.pipe(takeUntil(this.destroyed$)).subscribe(res => {
         const sortedQuestions = Question.sortQuestionsByisAnswered(res);
         this.answeredQuestions = sortedQuestions.answeredQuestion;
         this.unansweredQuestions = sortedQuestions.unansweredQuestion;
@@ -41,5 +43,10 @@ export class ListOfQuestionsComponent implements OnInit {
 
   answerQuestion(question: Question){
     this.localStorageService.updateQuestion(question);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

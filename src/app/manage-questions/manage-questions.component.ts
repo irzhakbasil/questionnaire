@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 import { AppRoutesEnum } from '../app-consts/app-constants';
 import { LocalStorageService } from '../local-storage.service';
 import { Question } from '../models/question.model';
@@ -11,6 +11,8 @@ import { Question } from '../models/question.model';
 })
 
 export class ManameQuestionsComponent implements OnInit {
+
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   questions$: Observable<Question[]>;
 

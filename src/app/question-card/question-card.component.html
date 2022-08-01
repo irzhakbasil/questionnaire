@@ -42,7 +42,7 @@
     </div>
 
     <ng-template #open [formGroup]="formGroup">
-        <textarea [formControlName]="'openAnswer'" placeholder="Type answer here" cols="30" rows="5"></textarea>
+        <textarea [formControlName]="'openAnswer'" maxlength="255" placeholder="Type answer here" cols="30" rows="5"></textarea>
     </ng-template>
     
     <ng-template #single [formGroup]="formGroup">

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { finalize, interval, ReplaySubject, take, takeUntil, timeout } from 'rxjs';
+import { interval, ReplaySubject, take, takeUntil } from 'rxjs';
 import { AppRoutesEnum, CREATE_QUESTION_MIN_FILLED_IN_INPUTS } from '../app-consts/app-constants';
 import { QuestionTypesStrings, Question, QuestionTypesConsts, QuestionLifecircleMode } from '../models/question.model';
 

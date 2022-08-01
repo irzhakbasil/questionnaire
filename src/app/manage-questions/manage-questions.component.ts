@@ -12,8 +12,6 @@ import { Question } from '../models/question.model';
 
 export class ManameQuestionsComponent implements OnInit {
 
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-
   questions$: Observable<Question[]>;
 
   appRouteEnum = AppRoutesEnum;

@@ -103,7 +103,7 @@ export class Question {
         }
     }
     
-    static getTimeStampNow() {
+    static getTimestampNow() {
         return new Date().getTime();
     }
 

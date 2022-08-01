@@ -36,7 +36,6 @@ export class LocalStorageService {
 
   public updateQuestion(questionEdited: Question) {
     let storeData = this.getData(true);
-    console.log(questionEdited, storeData)
     storeData.map((question, index) => {
       if(question.id === questionEdited.id) {
         storeData[index] = questionEdited;

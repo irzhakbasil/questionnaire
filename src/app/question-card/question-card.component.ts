@@ -69,10 +69,6 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
     this.formGroup.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(_ => {
       this.checkFormValidity();
     })
-
-    setTimeout(()=> {
-      console.log(this.question)
-    },2000)
   }
 
   setTemplateData(){
@@ -88,7 +84,6 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
       if (this.calle === AppRoutesEnum.LIST_OF_QUESTIONS && !this.question.answered) {
         if (this.question.answers) {
           const missingInputsNumber = (this.question?.answers).length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
-          console.log(missingInputsNumber)
           interval(0).pipe(take(missingInputsNumber)).subscribe(_=> {
             this.multiChoiceArray.push(new FormControl(''))
           });
@@ -120,7 +115,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
 
   submitAnsver(){
     const updatedQuestion = new Question({...this.question as Question}, QuestionLifecircleMode.UPDATE);
-    updatedQuestion.answeredTimestamp = Question.getTimeStampNow();
+    updatedQuestion.answeredTimestamp = Question.getTimestampNow();
     switch(this.question?.type) {
       case QuestionTypesConsts.OPEN: {
         updatedQuestion.answersChosenByUser = [this.formGroup.get(AnswerFormKeys.OPEN_ANSWER)?.value];

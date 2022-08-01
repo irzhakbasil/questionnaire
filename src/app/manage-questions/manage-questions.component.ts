@@ -20,7 +20,6 @@ export class ManameQuestionsComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {
     this.questions$ = this.localStorageService.getQuestionsObservable();
-    console.log(this.localStorageService.getQuestionsObservable())
   } 
 
   ngOnInit(): void {

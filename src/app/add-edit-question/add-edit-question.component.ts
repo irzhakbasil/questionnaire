@@ -89,9 +89,10 @@ export class AddEditComponent implements OnInit, OnDestroy {
         // We add inputs if there is more then 2 answers
         const missingInputsNumber = this.editQuestionObject.answers?.length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
         interval(0).pipe(take(missingInputsNumber), finalize(()=> {
-          this.addQastionInput();
           this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY)?.patchValue(this.editQuestionObject.answers)
-        })).subscribe(_=> null);
+        })).subscribe(_=> {
+          this.addQastionInput();
+        });
       } else {
         this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY)?.patchValue(this.editQuestionObject.answers);
       }

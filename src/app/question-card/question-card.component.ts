@@ -86,13 +86,12 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
         if (this.question.answers) {
           const missingInputsNumber = (this.question?.answers).length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
           if(missingInputsNumber) {
-            interval(0).pipe(take(missingInputsNumber), finalize(() => {
+            interval(0).pipe(take(missingInputsNumber)).subscribe(_=> {
               this.multiChoiceArray.push(new FormControl(''))
-            })).subscribe(_=> null);
+            });
           }
         }
       }
-
     }
   }
 

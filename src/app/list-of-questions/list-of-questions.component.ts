@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { interval, Observable, ReplaySubject, take, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { AppRoutesEnum } from '../app-consts/app-constants';
 import { LocalStorageService } from '../local-storage.service';
 import { Question } from '../models/question.model';
@@ -23,7 +22,6 @@ export class ListOfQuestionsComponent implements OnInit, OnDestroy {
   appRoutesEnum = AppRoutesEnum;
 
   constructor(
-    private router: Router,
     private localStorageService: LocalStorageService
   ) {
     this.questions$ = localStorageService.getQuestionsObservable();

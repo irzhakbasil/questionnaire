@@ -2,16 +2,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Question, QuestionLifecircleMode, QuestionTypes, QuestionTypesStrings } from '../models/question.model';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
 
 // app
 import { AppRoutesEnum, CONTROLS_ARRAY_MAX_LENGTH, CREATE_QUESTION_MIN_FILLED_IN_INPUTS} from '../app-consts/app-constants'
+import { LocalStorageService } from '../local-storage.service';
 
 //3-rd party
 import { nanoid } from 'nanoid';
-import { LocalStorageService } from '../local-storage.service';
-import { Router } from '@angular/router';
 import { finalize, interval, ReplaySubject, take, takeUntil } from 'rxjs';
 
+enum QuestionFormKeys {
+  TYPE = 'type',
+  QUESTION = 'question',
+  CONTROLS_ARRAY = 'controlsArray'
+}
 @Component({
   selector: 'app-add-edit-question',
   templateUrl: './add-edit-question.component.html',
@@ -63,7 +68,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
       question: new FormControl('', Validators.required),
       controlsArray: this.controlsArray
     });
-    this.formGroup.get('type')?.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(type => {
+    this.formGroup.get(QuestionFormKeys.TYPE)?.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(type => {
       this.selectedType = type;
     })
     this.fillTypeNames();
@@ -77,18 +82,18 @@ export class AddEditComponent implements OnInit, OnDestroy {
   }
 
   setEditMode() {
-    this.formGroup.get('type')?.setValue(Question.getQuestionTypeString(this.editQuestionObject.type as QuestionTypesStrings));
-    this.formGroup.get('question')?.setValue(this.editQuestionObject.question);
+    this.formGroup.get(QuestionFormKeys.TYPE)?.setValue(Question.getQuestionTypeString(this.editQuestionObject.type as QuestionTypesStrings));
+    this.formGroup.get(QuestionFormKeys.QUESTION)?.setValue(this.editQuestionObject.question);
     if(this.editQuestionObject.answers) {
       if(this.editQuestionObject.answers?.length > CREATE_QUESTION_MIN_FILLED_IN_INPUTS) {
         // We add inputs if there is more then 2 answers
         const missingInputsNumber = this.editQuestionObject.answers?.length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
         interval(0).pipe(take(missingInputsNumber), finalize(()=> {
           this.addQastionInput();
-          this.formGroup.get('controlsArray')?.patchValue(this.editQuestionObject.answers)
+          this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY)?.patchValue(this.editQuestionObject.answers)
         })).subscribe(_=> null);
       } else {
-        this.formGroup.get('controlsArray')?.patchValue(this.editQuestionObject.answers);
+        this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY)?.patchValue(this.editQuestionObject.answers);
       }
     }
   }
@@ -100,7 +105,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
   }
 
   selectType(type: string) {
-    this.formGroup.get('type')?.setValue(type)
+    this.formGroup.get(QuestionFormKeys.TYPE)?.setValue(type)
   }
 
   addQastionInput(){
@@ -112,7 +117,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
   validateInputs() {
     this.formGroup.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(_ => {
       // Checking if 2 inputs for single and multiple choices are filled in:
-      this.isInputsValid = (this.formGroup.get('controlsArray') as FormArray)
+      this.isInputsValid = (this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY) as FormArray)
         .value.filter((value: string) => value !== '').length >= CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
         // Setting valid state if we don't need answers
         if (this.selectedType === QuestionTypes.OPEN && this.formGroup.valid) {
@@ -126,11 +131,11 @@ export class AddEditComponent implements OnInit, OnDestroy {
       creationTimestamp: new Date().getTime(),
       answeredTimestamp: new Date().getTime(),
       answered: false,
-      question: this.formGroup.get('question')?.value,
-      type: Question.getQuestionType(this.formGroup.get('type')?.value),
+      question: this.formGroup.get(QuestionFormKeys.QUESTION)?.value,
+      type: Question.getQuestionType(this.formGroup.get(QuestionFormKeys.TYPE)?.value),
       id: this.isEditMode ? this.editQuestionObject.id : nanoid(),
       answers: this.selectedType !== QuestionTypes.OPEN
-        ? (this.formGroup.get('controlsArray') as FormArray).value.filter((val: string) => val !== '')
+        ? (this.formGroup.get(QuestionFormKeys.CONTROLS_ARRAY) as FormArray).value.filter((val: string) => val !== '')
         : []
     }, this.isEditMode ? QuestionLifecircleMode.UPDATE : QuestionLifecircleMode.CREATE)
     if(this.isEditMode) {

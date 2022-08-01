@@ -14,7 +14,6 @@ enum AnswerFormKeys {
   OPEN_ANSWER = 'openAnswer',
   SINGLE_CHOICE= 'singleChoice',
   MULTI_CHOICE_ARRAY = 'multiChoiceArray'
-
 }
 @Component({
   selector: 'app-question-card',

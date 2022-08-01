@@ -4,9 +4,9 @@
             {{ question?.question }}
         </span>
     </div>
-    <ng-template *ngIf="calle === appRouteEnum.MANAGE_QUESTIONS" [ngTemplateOutlet]="template_for_management_page"></ng-template>
-    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS && !question?.answered" [ngTemplateOutlet]="template_for_list_page_ununswered"></ng-template>
-    <ng-template *ngIf="calle === appRouteEnum.LIST_OF_QUESTIONS && question?.answered" [ngTemplateOutlet]="template_for_list_page_unswered"></ng-template>
+    <ng-template *ngIf="whoCall === appRouteEnum.MANAGE_QUESTIONS_RELATIVE" [ngTemplateOutlet]="template_for_management_page"></ng-template>
+    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && !question?.answered" [ngTemplateOutlet]="template_for_list_page_ununswered"></ng-template>
+    <ng-template *ngIf="whoCall === appRouteEnum.LIST_OF_QUESTIONS_RElATIVE && question?.answered" [ngTemplateOutlet]="template_for_list_page_unswered"></ng-template>
 </div>
 
 <ng-template #template_for_management_page>
@@ -17,7 +17,7 @@
             <span><strong>Type: </strong>{{ type }}</span>
         </div>
         <div class="buttons-container">
-            <button class="button" [routerLink]="['edit-question', id]" [state]="{question: question}"><i class="fa fa-edit"></i> Edit question</button>
+            <button class="button" [routerLink]="[appRouteEnum.EDIT_QUESTIONS_RELATIVE, id]" [state]="{question: question}"><i class="fa fa-edit"></i> Edit question</button>
             <button class="button" (click)="onDeleteQuestion()"><i class="fa fa-trash"></i> Delete question</button>
         </div>
     </div>

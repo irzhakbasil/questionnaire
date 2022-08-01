@@ -1,8 +1,8 @@
 <div class="manage-questions">
     <h1 class="header">Manage Questions</h1>
     <div class="navigation-container">
-        <a class="link" [routerLink]="['/list-of-questions']"><span>Go to the Lists of Questions </span></a>
-        <button class="button" [routerLink]="'create-question'">Create question</button>
+        <a class="link" [routerLink]="[appRouteEnum.LIST_OF_QUESTIONS_ROOT]"><span>Go to the Lists of Questions </span></a>
+        <button class="button" [routerLink]="appRouteEnum.LIST_OF_QUESTIONS_RElATIVE">Create question</button>
     </div>
     <div class="question-cards-container">
         <ng-container *ngIf="questions$ | async as questions">
@@ -10,7 +10,7 @@
                 <div *ngFor="let question of questions">
                     <app-question-card
                         [question]="question"
-                        [calle]="appRouteEnum.MANAGE_QUESTIONS"
+                        [whoCall]="appRouteEnum.MANAGE_QUESTIONS_RELATIVE"
                         (deleteQuestion)="deleteQuestion($event)"
                     ></app-question-card>
                 </div>

@@ -1,16 +1,16 @@
 // angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Question, QuestionLifecircleMode, QuestionTypes, QuestionTypesStrings } from '../models/question.model';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 
 // app
-import { CONTROLS_ARRAY_MAX_LENGTH, CREATE_QUESTION_MIN_FILLED_IN_INPUTS} from '../app-consts/app-constants'
+import { AppRoutesEnum, CONTROLS_ARRAY_MAX_LENGTH, CREATE_QUESTION_MIN_FILLED_IN_INPUTS} from '../app-consts/app-constants'
 
 //3-rd party
 import { nanoid } from 'nanoid';
 import { LocalStorageService } from '../local-storage.service';
 import { Router } from '@angular/router';
-import { interval, take } from 'rxjs';
+import { finalize, interval, ReplaySubject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-question',
@@ -18,7 +18,11 @@ import { interval, take } from 'rxjs';
   styleUrls: ['./add-edit-question.component.scss']
 })
 
-export class AddEditComponent implements OnInit {
+export class AddEditComponent implements OnInit, OnDestroy {
+
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
+  appRoutesEnum = AppRoutesEnum;
 
   isEditMode: boolean = false;
 
@@ -59,7 +63,7 @@ export class AddEditComponent implements OnInit {
       question: new FormControl('', Validators.required),
       controlsArray: this.controlsArray
     });
-    this.formGroup.get('type')?.valueChanges.subscribe(type => {
+    this.formGroup.get('type')?.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(type => {
       this.selectedType = type;
     })
     this.fillTypeNames();
@@ -79,10 +83,10 @@ export class AddEditComponent implements OnInit {
       if(this.editQuestionObject.answers?.length > CREATE_QUESTION_MIN_FILLED_IN_INPUTS) {
         // We add inputs if there is more then 2 answers
         const missingInputsNumber = this.editQuestionObject.answers?.length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
-        interval(0).pipe(take(missingInputsNumber)).subscribe(_=> {
+        interval(0).pipe(take(missingInputsNumber), finalize(()=> {
           this.addQastionInput();
           this.formGroup.get('controlsArray')?.patchValue(this.editQuestionObject.answers)
-        });
+        })).subscribe(_=> null);
       } else {
         this.formGroup.get('controlsArray')?.patchValue(this.editQuestionObject.answers);
       }
@@ -106,7 +110,7 @@ export class AddEditComponent implements OnInit {
   }
 
   validateInputs() {
-    this.formGroup.valueChanges.subscribe(_ => {
+    this.formGroup.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(_ => {
       // Checking if 2 inputs for single and multiple choices are filled in:
       this.isInputsValid = (this.formGroup.get('controlsArray') as FormArray)
         .value.filter((value: string) => value !== '').length >= CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
@@ -135,5 +139,9 @@ export class AddEditComponent implements OnInit {
       this.localStoreService.saveQuestion(newQuestion);
     }
     this.router.navigate(['/manage-questions']);
+  }
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }

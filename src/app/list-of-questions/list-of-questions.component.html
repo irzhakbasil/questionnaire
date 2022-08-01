@@ -1,5 +1,5 @@
 <div class="navigation-container">
-    <a class="link" [routerLink]="['/manage-questions']"><span>Go to the Manage Questions Page</span></a>
+    <a class="link" [routerLink]="[appRoutesEnum.MANAGE_QUESTIONS_ROOT]"><span>Go to the Manage Questions Page</span></a>
 </div>
 <div class="list-container">
     <div class="answered-questions-container">
@@ -9,7 +9,7 @@
                 <app-question-card        
                 [question]="question"
                 (submitAnswer)="answerQuestion($event)"
-                [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+                [whoCall]="appRoutesEnum.LIST_OF_QUESTIONS_RElATIVE"
                 >
                 </app-question-card>
             </div>
@@ -22,7 +22,7 @@
                 <app-question-card
                 [question]="question"
                 (submitAnswer)="answerQuestion($event)"
-                [calle]="appRoutesEnum.LIST_OF_QUESTIONS"
+                [whoCall]="appRoutesEnum.LIST_OF_QUESTIONS_RElATIVE"
                 >
                 </app-question-card>
             </div>

@@ -8,7 +8,7 @@ import { ListOfQuestionsComponent } from './list-of-questions/list-of-questions.
 
 const routes: Routes = [
   { path: '', component: ManameQuestionsComponent },
-  { path: AppRoutesEnum.MANAGE_QUESTIONS, component: ManameQuestionsComponent },
+  { path: AppRoutesEnum.MANAGE_QUESTIONS_RELATIVE, component: ManameQuestionsComponent },
   { path: 'manage-questions/create-question', component: AddEditComponent },
   { path: 'manage-questions/edit-question/:id', component: AddEditComponent },
   { path: 'list-of-questions', component: ListOfQuestionsComponent },

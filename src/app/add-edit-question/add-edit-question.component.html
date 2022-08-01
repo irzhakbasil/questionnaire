@@ -1,7 +1,7 @@
 <div class="container" [formGroup]="formGroup">
     <h1>{{ isEditMode ? 'Edit Question' : 'Create Question' }}</h1>
     <div class="navigation-container">
-        <a class="link" [routerLink]="['/manage-questions']"><span>Go to the Manage Questions Page</span></a>
+        <a class="link" [routerLink]="[appRoutesEnum.MANAGE_QUESTIONS_ROOT]"><span>Go to the Manage Questions Page</span></a>
     </div>
     <div class="content">
         <textarea cols="30" rows="5" placeholder="enter question" [formControlName]="'question'"></textarea>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { interval, ReplaySubject, take, takeUntil, timeout } from 'rxjs';
+import { finalize, interval, ReplaySubject, take, takeUntil, timeout } from 'rxjs';
 import { AppRoutesEnum, CREATE_QUESTION_MIN_FILLED_IN_INPUTS } from '../app-consts/app-constants';
 import { QuestionTypesStrings, Question, QuestionTypesConsts, QuestionLifecircleMode } from '../models/question.model';
 
@@ -41,7 +41,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
 
   @Input() question?: Question;
 
-  @Input() calle?: AppRoutesEnum;
+  @Input() whoCall?: AppRoutesEnum;
 
   appRouteEnum = AppRoutesEnum;
 
@@ -75,18 +75,18 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
 
     if(this.question) {
       this.type = Question.getQuestionTypeString(this.question?.type as QuestionTypesStrings);
-      if (this.calle === AppRoutesEnum.MANAGE_QUESTIONS) {
+      if (this.whoCall === AppRoutesEnum.MANAGE_QUESTIONS_RELATIVE) {
         this.date = Question.getDateString(this.question?.creationTimestamp as number)
         this.id = this.question?.id as string;
         this.answered = Question.isAnsweredTransform(this.question?.answered as boolean);
       }
 
-      if (this.calle === AppRoutesEnum.LIST_OF_QUESTIONS && !this.question.answered) {
+      if (this.whoCall === AppRoutesEnum.LIST_OF_QUESTIONS_RElATIVE && !this.question.answered) {
         if (this.question.answers) {
           const missingInputsNumber = (this.question?.answers).length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
-          interval(0).pipe(take(missingInputsNumber)).subscribe(_=> {
+          interval(0).pipe(take(missingInputsNumber), finalize(() => {
             this.multiChoiceArray.push(new FormControl(''))
-          });
+          })).subscribe(_=> null);
         }
       }
 

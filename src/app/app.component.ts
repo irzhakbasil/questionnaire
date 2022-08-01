@@ -11,7 +11,7 @@ export class AppComponent implements OnInit{
   title = 'questionnaire-app';
 
   constructor(private router: Router){
-    this.router.navigate([AppRoutesEnum.MANAGE_QUESTIONS])
+    this.router.navigate([AppRoutesEnum.MANAGE_QUESTIONS_RELATIVE])
   }
 
   ngOnInit() {

@@ -141,7 +141,6 @@ export class AddEditComponent implements OnInit, OnDestroy {
     if(this.isEditMode) {
       this.localStoreService.updateQuestion(newQuestion);
     } else {
-      console.log(newQuestion)
       this.localStoreService.saveQuestion(newQuestion);
     }
     this.router.navigate([AppRoutesEnum.MANAGE_QUESTIONS_ROOT]);

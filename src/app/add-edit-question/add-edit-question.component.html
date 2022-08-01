@@ -29,7 +29,7 @@
 
 <ng-template #questionsList>
     <div [formGroup]="formGroup">
-        <div formArrayName="controlsArray" class="inpits-container">
+        <div formArrayName="controlsArray" class="inputs-container">
             <div *ngFor="let control of controlsArray.controls; let i=index">
                 <input class="text-input" type="text"  [formControlName]="i" [placeholder]="'enter possible answer'">
             </div>

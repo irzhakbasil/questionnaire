@@ -77,8 +77,8 @@ export class Question {
         return QuestionTypes[value];
     }
 
-    static isAnsweredTransform(insAnswered: boolean): string  {
-        return insAnswered ? 'Yes' : 'No';
+    static isAnsweredTransform(isAnswered: boolean): string  {
+        return isAnswered ? 'Yes' : 'No';
     }
 
     static getEmptyQuestionObject(){

@@ -13,7 +13,7 @@ interface IAnswerForm {
 enum AnswerFormKeys {
   OPEN_ANSWER = 'openAnswer',
   SINGLE_CHOICE= 'singleChoice',
-  MULTI_CHICE_ARRAY = 'multiChoiceArray'
+  MULTI_CHOICE_ARRAY = 'multiChoiceArray'
 
 }
 @Component({
@@ -33,6 +33,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
   date: string = '';
 
   type: string = '';
+
   cardType: string = ''
 
   answered: string = '';
@@ -56,7 +57,6 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
   isFormValid: boolean = false;
 
   constructor() {
-      QuestionCardComponent
       this.formGroup = new FormGroup<IAnswerForm>({
         openAnswer: new FormControl('', Validators.required) as FormControl<string>,
         singleChoice: new FormControl('', Validators.required) as FormControl<string>,
@@ -74,6 +74,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
   setTemplateData(){
 
     if(this.question) {
+
       this.type = Question.getQuestionTypeString(this.question?.type as QuestionTypesStrings);
       if (this.whoCall === AppRoutesEnum.MANAGE_QUESTIONS_RELATIVE) {
         this.date = Question.getDateString(this.question?.creationTimestamp as number)
@@ -82,6 +83,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
       }
 
       if (this.whoCall === AppRoutesEnum.LIST_OF_QUESTIONS_RElATIVE && !this.question.answered) {
+
         if (this.question.answers) {
           const missingInputsNumber = (this.question?.answers).length - CREATE_QUESTION_MIN_FILLED_IN_INPUTS;
           interval(0).pipe(take(missingInputsNumber), finalize(() => {
@@ -107,7 +109,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
       }
 
       case QuestionTypesConsts.MULTIPLE: {
-        this.isFormValid = this.formGroup.get(AnswerFormKeys.MULTI_CHICE_ARRAY)?.value.toString().includes(true.toString()) as boolean;
+        this.isFormValid = this.formGroup.get(AnswerFormKeys.MULTI_CHOICE_ARRAY)?.value.toString().includes(true.toString()) as boolean;
         break;
       }
     }
@@ -135,7 +137,7 @@ export class QuestionCardComponent implements OnInit, OnDestroy {
       }
 
       case QuestionTypesConsts.MULTIPLE: {
-        const multiChoiceArrayValue = this.formGroup.get(AnswerFormKeys.MULTI_CHICE_ARRAY)?.value;
+        const multiChoiceArrayValue = this.formGroup.get(AnswerFormKeys.MULTI_CHOICE_ARRAY)?.value;
         updatedQuestion.answersChosenByUser = updatedQuestion.answers?.map((answer: string, index) => {
           if(multiChoiceArrayValue[index]) {
             return answer

@@ -7,7 +7,7 @@
     max-width: 600px;
     min-width: 450px;
     position: relative;
-    box-shadow: 0px 5px 5px 0px rgb(0 0 0 / 30%);
+    box-shadow: 0px 5px 5px 0px #0000004d;
     background-color: #fff;
     margin-bottom: 15px;
 }
@@ -42,7 +42,6 @@
 }
 
 .button-container {
-    border-top: 1px solid #ccc;
     padding: 5px;
     display: flex;
     button {
@@ -68,6 +67,8 @@ strong {
 textarea {
     @include textarea-mixin;
     border-top: 1px solid #ccc;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     &:focus {
         border: none;
         border-top: 1px solid #ccc;
@@ -88,7 +89,6 @@ textarea {
     margin-bottom: 10px;
 }
 .content-for-list-page {
-    padding-top: 10px;
     background-color: #ededed;
 }
 .check-radio-container {
@@ -98,15 +98,34 @@ textarea {
     display: flex;
     flex-direction: column;
     background-color: #ededed;
-    padding-left: 10px;
     span {
-        font-size: 17px;
+        padding-left: 10px;
+        margin: 5px;
+        font-size: 16px;
     }
     ul {
+        margin-left: 10px;
+        line-height: 1.2em;
         margin: 0;
         li {
             font-size: 16px;
-            margin-top: 10px;
         }
     }
+    strong {
+        color: #8b1818;
+    }
+}
+.margin-top-border {
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.padding-top {
+    padding-top: 10px;
+}
+
+.type-span {
+    margin-top: 3px;
+    margin-left: 10px;
+    color: #919191;
 }

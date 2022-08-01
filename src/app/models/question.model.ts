@@ -29,13 +29,14 @@ interface SortedQuestions {
 
 const QuestionInitializer: Question = {
     creationTimestamp: new Date().getTime(),
+    answeredTimestamp: new Date().getTime(),
     question: '',
     type: '',
     answered: false,
 }
 export class Question {
     creationTimestamp: number;
-    answeredTimestamp?: number;
+    answeredTimestamp: number;
     id?: string;
     question: string;
     type: string;
@@ -51,14 +52,18 @@ export class Question {
         this.answeredTimestamp = input.answeredTimestamp;
         this.id = input.id;
         if(input.answers) {
-            this.answers = input.answers
+            this.answers = input.answers;
         }
         if(input.answersChosenByUser) {
-            this.answersChosenByUser = input.answersChosenByUser
+            this.answersChosenByUser = input.answersChosenByUser;
+        }
+        if(input.answeredTimestamp) {
+            this.answeredTimestamp = input.answeredTimestamp;
         }
         if (mode === QuestionLifecircleMode.UNANSWER) {
             this.answered = false;
             this.answersChosenByUser = [];
+            this.answeredTimestamp = this.creationTimestamp;
         }
     }
 
@@ -93,14 +98,20 @@ export class Question {
             }
         })
         return {
-            answeredQuestion,
+            answeredQuestion: Question.sortQuestionByUnswerDate(answeredQuestion),
             unansweredQuestion
         }
     }
     
-    static sortQuestionByDate(questions: Question[]) {
+    static sortQuestionByCreationDate(questions: Question[]) {
         return questions.sort(function(a, b){
-            return a.creationTimestamp - b.creationTimestamp;
+            return b.creationTimestamp - a.creationTimestamp;
+        })
+    }
+
+    static sortQuestionByUnswerDate(questions: Question[]) {
+        return questions.sort(function(a, b){
+            return a.answeredTimestamp - b.answeredTimestamp;
         })
     } 
 }

@@ -120,6 +120,7 @@ export class AddEditComponent implements OnInit {
   saveQuestion() {
     const newQuestion = new Question({
       creationTimestamp: new Date().getTime(),
+      answeredTimestamp: new Date().getTime(),
       answered: false,
       question: this.formGroup.get('question')?.value,
       type: Question.getQuestionType(this.formGroup.get('type')?.value),

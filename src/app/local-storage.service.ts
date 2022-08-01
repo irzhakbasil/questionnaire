@@ -39,7 +39,6 @@ export class LocalStorageService {
     console.log(questionEdited, storeData)
     storeData.map((question, index) => {
       if(question.id === questionEdited.id) {
-        console.log('MATCH')
         storeData[index] = questionEdited;
       }
     });
@@ -71,6 +70,6 @@ export class LocalStorageService {
     if(!isSaveDeleteUpdateOperation) {
       this.setQuestionsObservable(questions);
     }
-    return questions;
+    return Question.sortQuestionByCreationDate(questions);
   }
 }
